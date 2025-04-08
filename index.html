@@ -5,19 +5,16 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Amanda, quer namorar comigo?</title>
   <style>
-    body {
-      margin: 0;
-      padding: 0;
-      font-family: 'Segoe UI', sans-serif;
-      background-color: #000;
-      color: #fff;
-      text-align: center;
-      overflow-x: hidden;
-      height: 100vh;
-      margin: 0;
-      padding: 0;
-      overflow: hidden;
-    }
+body {
+  margin: 0;
+  padding: 0;
+  font-family: 'Segoe UI', sans-serif;
+  background-color: black;
+  color: white;
+  text-align: center;
+  min-height: 100vh;
+  overflow-x: hidden; /* permite scroll vertical, mas bloqueia horizontal */
+}
 
     h1 {
       margin-top: 80px;
@@ -77,6 +74,43 @@
       border-radius: 50%;
     }
 
+    .polaroid-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 16px;
+  margin: 40px auto;
+  padding: 0 20px;
+  flex-direction: column;
+}
+
+@media (min-width: 600px) {
+  .polaroid-container {
+    flex-direction: row;
+  }
+}
+
+.polaroid {
+  background: white;
+  color: black;
+  padding: 10px;
+  width: 220px;
+  box-shadow: 0 8px 16px rgba(0,0,0,0.3);
+  text-align: center;
+  transform: rotate(-2deg);
+  transition: transform 0.3s;
+}
+
+.polaroid:hover {
+  transform: scale(1.05) rotate(0deg);
+}
+
+.polaroid img {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
     .heart::before {
       top: -10px;
       left: 0;
@@ -133,24 +167,25 @@
   <h1>Amanda</h1>
   <p id="instruction">Quando estiver pronta, clique no botão abaixo...</p>
 
-  <button id="acceptButton">Quero namorar com você</button>
+  <button id="acceptButton"></button>
 
   <div id="timer" style="display: none;"></div>
 
   <div class="polaroid-container">
     <div class="polaroid">
-      <img src="foto1.jpeg" alt="nossa foto 1">
-      <div class="polaroid-caption">Primeiro encontro</div>
+      <img src="foto1.jpeg" alt="Foto 1" />
+      <p>Legenda 1</p>
     </div>
     <div class="polaroid">
-      <img src="foto2.jpeg" alt="nossa foto 2">
-      <div class="polaroid-caption">Primeiro beijo</div>
+      <img src="foto2.jpeg" alt="Foto 2" />
+      <p>Legenda 2</p>
     </div>
     <div class="polaroid">
-      <img src="foto3.jpeg" alt="nossa foto 3">
-      <div class="polaroid-caption"> Conhecendo seus pais</div>
+      <img src="foto3.jpeg" alt="Foto 3" />
+      <p>Legenda 3</p>
     </div>
   </div>
+  
 
   <audio id="clickSound" src="https://cdn.pixabay.com/download/audio/2023/03/30/audio_7c73025a57.mp3" preload="auto"></audio>
 
@@ -197,11 +232,10 @@
       setInterval(updateTimer, 1000);
     }
 
-    const fixedStartDate = new Date("2025-04-13T17:00:00");
-startTimer(fixedStartDate);
+  
 
-    button.addEventListener("click", () => {
-      const fixedStartDate = new Date("2025-04-13T17:00:00"); 
+      button.addEventListener("click", () => {
+      const fixedStartDate = new Date("2025-04-08T17:00:00"); 
 startTimer(fixedStartDate);
     });
 
