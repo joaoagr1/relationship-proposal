@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Amanda, quer namorar comigo?</title>
   <style>
-    body {
+    html, body {
       margin: 0;
       padding: 0;
       font-family: 'Segoe UI', sans-serif;
@@ -13,11 +13,15 @@
       color: white;
       text-align: center;
       overflow: hidden;
+      height: 100vh;
+      width: 100vw;
     }
 
     @media (max-width: 600px) {
-      body {
+      html, body {
         overflow-y: auto;
+        overflow-x: hidden;
+        height: 95vh;
       }
     }
 
@@ -101,18 +105,11 @@
 
     .polaroid-container {
       display: flex;
+      flex-wrap: wrap;
       justify-content: center;
       gap: 20px;
-      flex-wrap: wrap;
       margin-top: 80px;
       padding-bottom: 60px;
-    }
-
-    @media (max-width: 600px) {
-      .polaroid-container {
-        flex-direction: column;
-        align-items: center;
-      }
     }
 
     .polaroid {
@@ -134,12 +131,19 @@
     .polaroid-caption {
       margin-top: 10px;
     }
+
+    @media (max-width: 600px) {
+      .polaroid-container {
+        flex-direction: column;
+        align-items: center;
+      }
+    }
   </style>
 </head>
 <body>
 
   <h1>Amanda</h1>
-  <p id="instruction">Quando estiver pronta, clique no botão abaixo...</p>
+  <p id="instruction">Clique para ver a quanto tempo estamos oficialmente juntos...</p>
 
   <button id="acceptButton"></button>
 
@@ -152,14 +156,14 @@
     </div>
     <div class="polaroid">
       <img src="foto2.jpeg" alt="Foto 2" />
-      <p>Primeiro beijo 2</p>
+      <p>Primeiro beijo</p>
     </div>
     <div class="polaroid">
       <img src="foto3.jpeg" alt="Foto 3" />
-      <p>Conhecendo os pais 3</p>
+      <p>Conhecendo seus pais</p>
     </div>
   </div>
-  
+
   <audio id="clickSound" src="https://cdn.pixabay.com/download/audio/2023/03/30/audio_7c73025a57.mp3" preload="auto"></audio>
 
   <script>
@@ -167,7 +171,6 @@
     const timerDiv = document.getElementById('timer');
     const instruction = document.getElementById('instruction');
     const audio = document.getElementById('clickSound');
-    const storageKey = "namoro_inicio";
 
     function startTimer(startDate) {
       timerDiv.style.display = "block";
@@ -206,7 +209,7 @@
     }
 
     button.addEventListener("click", () => {
-      const fixedStartDate = new Date("2025-04-13T17:00:00");
+      const fixedStartDate = new Date("2025-04-08T17:00:00");
       startTimer(fixedStartDate);
     });
 
