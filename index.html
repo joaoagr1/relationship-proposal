@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Amanda, quer namorar comigo?</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #000;
+      color: #fff;
+      text-align: center;
+      overflow-x: hidden;
+      height: 100vh;
+      margin: 0;
+      padding: 0;
+      overflow: hidden;
+    }
+
+    h1 {
+      margin-top: 80px;
+      font-size: 3rem;
+      color: #ff66a3;
+    }
+
+    p {
+      font-size: 1.2rem;
+      margin-bottom: 20px;
+      color: #ccc;
+    }
+
+    button {
+      background-color: #ff66a3;
+      border: none;
+      color: white;
+      padding: 15px 35px;
+      font-size: 1.3rem;
+      border-radius: 30px;
+      cursor: pointer;
+      /* box-shadow: 0 4px 10px rgba(255, 102, 163, 0.4); */
+      transition: transform 0.2s;
+    }
+
+    button:hover:not(:disabled) {
+      transform: scale(1.05);
+    }
+
+    button:disabled {
+      background-color: #555;
+      cursor: not-allowed;
+    }
+
+    #timer {
+      font-size: 1.4rem;
+      margin-top: 40px;
+      color: #ffb6c1;
+    }
+
+    .heart {
+      position: absolute;
+      width: 20px;
+      height: 20px;
+      background-color: #ff69b4;
+      transform: rotate(45deg);
+      animation: float 10s linear infinite;
+    }
+
+    .heart::before,
+    .heart::after {
+      content: '';
+      position: absolute;
+      width: 20px;
+      height: 20px;
+      background-color: #ff69b4;
+      border-radius: 50%;
+    }
+
+    .heart::before {
+      top: -10px;
+      left: 0;
+    }
+
+    .heart::after {
+      top: 0;
+      left: -10px;
+    }
+
+    @keyframes float {
+      0% {
+        transform: translateY(100vh) rotate(45deg);
+        opacity: 1;
+      }
+      100% {
+        transform: translateY(-10vh) rotate(45deg);
+        opacity: 0;
+      }
+    }
+
+    .polaroid-container {
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+      flex-wrap: wrap;
+      margin-top: 80px;
+      padding-bottom: 60px;
+    }
+
+    .polaroid {
+      background: white;
+      padding: 10px;
+      border-radius: 10px;
+      box-shadow: 0 4px 10px rgba(255, 255, 255, 0.2);
+      width: 180px;
+      text-align: center;
+      color: black;
+      font-weight: bold;
+    }
+
+    .polaroid img {
+      width: 100%;
+      border-radius: 5px;
+    }
+
+    .polaroid-caption {
+      margin-top: 10px;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Amanda</h1>
+  <p id="instruction">Quando estiver pronta, clique no botão abaixo...</p>
+
+  <button id="acceptButton">Quero namorar com você</button>
+
+  <div id="timer" style="display: none;"></div>
+
+  <div class="polaroid-container">
+    <div class="polaroid">
+      <img src="foto1.jpeg" alt="nossa foto 1">
+      <div class="polaroid-caption">Primeiro encontro</div>
+    </div>
+    <div class="polaroid">
+      <img src="foto2.jpeg" alt="nossa foto 2">
+      <div class="polaroid-caption">Primeiro beijo</div>
+    </div>
+    <div class="polaroid">
+      <img src="foto3.jpeg" alt="nossa foto 3">
+      <div class="polaroid-caption"> Conhecendo seus pais</div>
+    </div>
+  </div>
+
+  <audio id="clickSound" src="https://cdn.pixabay.com/download/audio/2023/03/30/audio_7c73025a57.mp3" preload="auto"></audio>
+
+  <script>
+    const button = document.getElementById('acceptButton');
+    const timerDiv = document.getElementById('timer');
+    const instruction = document.getElementById('instruction');
+    const audio = document.getElementById('clickSound');
+    const storageKey = "namoro_inicio";
+
+    function startTimer(startDate) {
+      timerDiv.style.display = "block";
+      button.disabled = true;
+      instruction.textContent = "Agora começa nossa história...";
+
+      function updateTimer() {
+        const now = new Date();
+        const diff = now - startDate;
+
+        let seconds = Math.floor(diff / 1000);
+        let minutes = Math.floor(seconds / 60);
+        let hours = Math.floor(minutes / 60);
+        let days = Math.floor(hours / 24);
+        let months = Math.floor(days / 30.44);
+        let years = Math.floor(days / 365.25);
+
+        seconds %= 60;
+        minutes %= 60;
+        hours %= 24;
+        days %= 30.44;
+
+        timerDiv.innerHTML = `
+          Estamos namorando há:<br />
+          <strong>${years}</strong> anos,
+          <strong>${months % 12}</strong> meses,
+          <strong>${Math.floor(days)}</strong> dias,
+          <strong>${hours}</strong> horas,
+          <strong>${minutes}</strong> minutos e
+          <strong>${seconds}</strong> segundos 
+        `;
+      }
+
+      updateTimer();
+      setInterval(updateTimer, 1000);
+    }
+
+    const savedTimestamp = localStorage.getItem(storageKey);
+    if (savedTimestamp) {
+      const startDate = new Date(parseInt(savedTimestamp));
+      startTimer(startDate);
+    }
+
+    button.addEventListener("click", () => {
+      const now = new Date();
+      localStorage.setItem(storageKey, now.getTime());
+      startTimer(now);
+      audio.play();
+    });
+
+    function createHearts() {
+      const heart = document.createElement('div');
+      heart.className = 'heart';
+      heart.style.left = Math.random() * 100 + 'vw';
+      heart.style.animationDuration = 5 + Math.random() * 5 + 's';
+      document.body.appendChild(heart);
+      setTimeout(() => heart.remove(), 10000);
+    }
+
+    setInterval(createHearts, 300);
+  </script>
+</body>
+</html>
