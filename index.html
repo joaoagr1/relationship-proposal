@@ -197,17 +197,12 @@
       setInterval(updateTimer, 1000);
     }
 
-    const savedTimestamp = localStorage.getItem(storageKey);
-    if (savedTimestamp) {
-      const startDate = new Date(parseInt(savedTimestamp));
-      startTimer(startDate);
-    }
+    const fixedStartDate = new Date("2025-04-13T17:00:00");
+startTimer(fixedStartDate);
 
     button.addEventListener("click", () => {
-      const now = new Date();
-      localStorage.setItem(storageKey, now.getTime());
-      startTimer(now);
-      audio.play();
+      const fixedStartDate = new Date("2025-04-13T17:00:00"); 
+startTimer(fixedStartDate);
     });
 
     function createHearts() {
