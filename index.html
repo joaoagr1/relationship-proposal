@@ -175,7 +175,7 @@
     function startTimer(startDate) {
       timerDiv.style.display = "block";
       button.disabled = true;
-      instruction.textContent = "Agora começa nossa história...";
+      instruction.textContent = "Nossa história...";
 
       function updateTimer() {
         const now = new Date();
@@ -209,7 +209,7 @@
     }
 
     button.addEventListener("click", () => {
-      const fixedStartDate = new Date("2025-04-08T17:00:00");
+      const fixedStartDate = new Date("2025-04-13T15:40:00");
       startTimer(fixedStartDate);
     });
 
